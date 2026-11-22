@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Monochrome phone outline + sparkle for Android 13+ themed icons -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M39,25h30a5,5 0,0 1,5 5v48a5,5 0,0 1,-5 5h-30a5,5 0,0 1,-5 -5v-48a5,5 0,0 1,5 -5z"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,40C55.2,48.4 59.6,52.8 68,54C59.6,55.2 55.2,59.6 54,68C52.8,59.6 48.4,55.2 40,54C48.4,52.8 52.8,48.4 54,40Z" />
+</vector>

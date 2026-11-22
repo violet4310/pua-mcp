@@ -1,0 +1,36 @@
+name = "pua-mcp-relay"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+# Durable Object binding for holding the persistent WebSocket from your Android phone
+[[durable_objects.bindings]]
+name = "PHONE_BRIDGE"
+class_name = "PhoneBridgeDO"
+
+# IMPORTANT: Use new_sqlite_classes so Durable Objects work on Cloudflare Workers Free plan!
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PhoneBridgeDO"]
+
+[[kv_namespaces]]
+binding = "OAUTH_KV"
+
+# Workers AI binding for multimodal screenshot understanding
+[ai]
+binding = "AI"
+
+[vars]
+# Optional: set a friendly server name shown in Gemini Connectors
+MCP_SERVER_NAME = "android-phone-controller"
+# Command timeout in milliseconds waiting for Android phone to respond
+COMMAND_TIMEOUT_MS = "25000"
+# Default Workers AI multimodal vision model for take_screenshot
+WORKERS_AI_VISION_MODEL = "@cf/google/gemma-4-26b-a4b-it"
+# Note: Set your secret token via `npx wrangler secret put RELAY_TOKEN`
+# (or in Cloudflare Dashboard -> Workers -> Settings -> Variables and Secrets)
+# Recommended: also set a separate PHONE_TOKEN via `npx wrangler secret put PHONE_TOKEN`
+# and enter that in the Android app so RELAY_TOKEN given to Gemini cannot impersonate /ws.
+# Optional (required for Gemini Web OAuth 2.1 custom connectors):
+# 1. Set OAUTH_ORIGIN to this Worker's HTTPS origin (no path/trailing slash), e.g.:
+#    OAUTH_ORIGIN = "https://pua-mcp-relay.<your-subdomain>.workers.dev"
+# 2. Set a >= 32-char owner password via: `npx wrangler secret put OAUTH_OWNER_KEY`

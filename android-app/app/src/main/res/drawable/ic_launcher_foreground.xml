@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer smartphone body centered inside the 66dp safe zone (21..87) -->
+    <path
+        android:fillColor="#1E293B"
+        android:pathData="M39,25h30a5,5 0,0 1,5 5v48a5,5 0,0 1,-5 5h-30a5,5 0,0 1,-5 -5v-48a5,5 0,0 1,5 -5z"
+        android:strokeColor="#E2E8F0"
+        android:strokeWidth="2.4" />
+    <!-- Inner screen -->
+    <path
+        android:fillColor="#0F172A"
+        android:pathData="M41,31h26a2.5,2.5 0,0 1,2.5 2.5v41a2.5,2.5 0,0 1,-2.5 2.5h-26a2.5,2.5 0,0 1,-2.5 -2.5v-41a2.5,2.5 0,0 1,2.5 -2.5z" />
+    <!-- Subtle top speaker pill -->
+    <path
+        android:fillColor="#94A3B8"
+        android:pathData="M49.5,27.5h9a1,1 0,0 1,0 2h-9a1,1 0,0 1,0 -2z" />
+    <!-- Soft cyan glow behind Gemini four-point sparkle -->
+    <path
+        android:fillAlpha="0.22"
+        android:fillColor="#38BDF8"
+        android:pathData="M54,54m-13,0a13,13 0,1 1,26 0a13,13 0,1 1,-26 0" />
+    <!-- Gemini four-point sparkle star -->
+    <path android:pathData="M54,40C55.2,48.4 59.6,52.8 68,54C59.6,55.2 55.2,59.6 54,68C52.8,59.6 48.4,55.2 40,54C48.4,52.8 52.8,48.4 54,40Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="68"
+                android:endY="68"
+                android:startX="40"
+                android:startY="40"
+                android:type="linear">
+                <item
+                    android:color="#FFFFFFFF"
+                    android:offset="0.0" />
+                <item
+                    android:color="#FF7DD3FC"
+                    android:offset="0.55" />
+                <item
+                    android:color="#FF38BDF8"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Small secondary sparkle -->
+    <path
+        android:fillColor="#BAE6FD"
+        android:pathData="M64.5,38.5C64.9,40.8 66.2,42.1 68.5,42.5C66.2,42.9 64.9,44.2 64.5,46.5C64.1,44.2 62.8,42.9 60.5,42.5C62.8,42.1 64.1,40.8 64.5,38.5Z" />
+</vector>

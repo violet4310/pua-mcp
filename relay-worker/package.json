@@ -1,0 +1,20 @@
+{
+  "name": "android-mcp-relay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Workers + Durable Objects Streamable HTTP MCP relay for controlling an Android device from Gemini mobile app.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261119.1",
+    "typescript": "^5.7.2",
+    "wrangler": "^4.166.0"
+  },
+  "dependencies": {
+    "@cloudflare/workers-oauth-provider": "1.2.4"
+  }
+}

@@ -1,0 +1,6 @@
+RELAY_TOKEN=replace-with-strong-random-token
+# Optional: set a separate token for the Android app's /ws connection
+# PHONE_TOKEN=replace-with-separate-phone-ws-token
+# Optional: enable Gemini OAuth 2.1 flow locally
+# OAUTH_ORIGIN=http://127.0.0.1:8787
+# OAUTH_OWNER_KEY=replace-with-at-least-32-character-random-owner-key
