@@ -1,6 +1,6 @@
-# PUA MCP 使用手册 / PUA MCP Setup Guide
+# PUA-MCP (Phone Use Agent) — Setup & Usage Guide / 完整使用手册
 
-[中文](#中文) · [English](#english)
+[中文](#中文) · [English](#english) · [AI Technical Reference (`llms.txt`)](llms.txt)
 
 本文示例中的域名都是占位符。请使用你自己账号下的 Worker 和自行生成的密钥。
 

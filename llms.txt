@@ -1,0 +1,61 @@
+# PUA-MCP (Phone Use Agent for Android) — Project Index (`llms.txt`)
+
+> Self-hosted Streamable HTTP MCP server (Cloudflare Workers + SQLite Durable Objects + Workers AI) and no-root Android AccessibilityService client for controlling a real Android phone from Gemini, Claude, Cursor, Windsurf, or any MCP client.
+
+## Repository Structure
+
+- `relay-worker/`: Cloudflare Worker TypeScript relay exposing `/mcp` (Streamable HTTP JSON-RPC 2.0), `/ws` (Android WebSocket), `/health`, OAuth 2.1 endpoints (`/authorize`, `/oauth/token`, `/oauth/register`, `/.well-known/oauth-authorization-server`), and Cloudflare Workers AI screenshot analysis (`src/vision.ts`).
+- `android-app/`: Native Android Kotlin app (`minSdk 26`, `targetSdk 35`, `compileSdk 35`) implementing `AccessibilityService` (`PhoneAccessibilityService.kt`), `specialUse` foreground WebSocket service (`RelayForegroundService.kt`), on-device risk confirmation (`RiskConfirm.kt`), draggable status/STOP pill (`EmergencyOverlayManager.kt`), and optional custom Vision API (`VisionAnalyzer.kt`).
+- `README.md`: Bilingual overview (English and Simplified Chinese).
+- `USAGE.md`: Bilingual setup, client configuration, and troubleshooting guide.
+
+## Deployment Overview
+
+1. Prerequisites: Cloudflare Free account, Node.js 22+, npm, OpenSSL.
+2. Deploy Worker:
+   ```bash
+   cd relay-worker
+   npm ci
+   npx wrangler login
+   npm run deploy
+   ```
+   Output URL is `<WORKER_URL>` (HTTPS origin without `/mcp` or trailing slash).
+3. Required Cloudflare Worker Secrets (`npx wrangler secret put <NAME>`):
+   - `PHONE_TOKEN`: 64-char random hex for Android `/ws` header auth.
+   - `RELAY_TOKEN`: 64-char random hex for MCP `/mcp` Bearer auth.
+   - `OAUTH_OWNER_KEY`: 64-char random hex (`>= 32` chars) for Gemini OAuth consent page.
+   - `OAUTH_ORIGIN`: Exact `<WORKER_URL>` origin (no `/mcp`, no trailing `/`).
+4. Verification Endpoints:
+   - `GET <WORKER_URL>/health` -> `{"ok":true,"service":"android-phone-controller"}`
+   - `GET <WORKER_URL>/.well-known/oauth-authorization-server` -> OAuth 2.1 metadata JSON.
+5. Android App Build (optional, prebuilt APK in GitHub Releases):
+   ```bash
+   cd android-app
+   gradle assembleDebug
+   ```
+   Output: `android-app/app/build/outputs/apk/debug/app-debug.apk`.
+6. Client Configurations:
+   - Gemini Web / Mobile (OAuth 2.1): `<WORKER_URL>/mcp`
+   - Streamable HTTP MCP clients (Claude / Cursor / Windsurf / CLI):
+     - URL: `<WORKER_URL>/mcp`
+     - Header: `Authorization: Bearer <RELAY_TOKEN>` (fallback query param: `?token=<RELAY_TOKEN>`)
+
+## MCP Tools (10)
+
+- `get_device_status`: Connection state, model, resolution, Accessibility status, window mode, auto-return setting.
+- `get_screen_ui`: `scope` (`"window"` default | `"all"`), `includeNonInteractive` (default `true`), `maxNodes` (10-500, default `160`).
+- `take_screenshot`: `scope` (`"window"` default | `"full"`), `prompt` (max 500 chars), `describe` (default `true`), `quality` (20-90, default `45`), `maxWidth` (320-1440, default `540`), `returnUi` (default `true`).
+- `tap`: `(x, y)` or `text` / `resourceId`, `returnUi` (default `true`).
+- `long_press`: `x`, `y`, `durationMs` (100-5000, default `800`), `returnUi` (default `true`).
+- `swipe`: `direction` (`up|down|left|right`) or `(startX, startY, endX, endY)`, `durationMs` (100-5000, default `350`), `returnUi` (default `true`).
+- `type_text`: `text`, optional `targetText`, `resourceId`, `clearFirst` (default `true`), `pressEnter` (default `false`), `returnUi` (default `true`).
+- `open_app`: `app` (package or display name), `windowMode` (`default|freeform|fullscreen`), `returnUi` (default `true`).
+- `press_key`: `key` (`back|home|recents|notifications|quick_settings`), `returnUi` (default `true`).
+- `return_to_gemini`: `force` (default `false`).
+
+## Validation Scripts
+
+- `python3 relay-worker/tests/validate_relay.py`
+- `cd relay-worker && npm run typecheck`
+- `node --test relay-worker/tests/test_vision.mjs`
+- `python3 relay-worker/tests/test_oauth.py`
